@@ -69,6 +69,11 @@ jobs:
             !frontend/node_modules/
             !.git/
             !.github/
+            !Final_Project
+            !Final_Project/antenv/
+            !Final_Project/frontend/node_modules/
+            !Final_Project/.git/
+            !Final_Project/.github/
 
   deploy:
     runs-on: ubuntu-latest
@@ -96,4 +101,4 @@ jobs:
         with:
           app-name: 'StudentTutorRecommendation'
           slot-name: 'Production'
-          package: .
+          package: ./Final_Project
