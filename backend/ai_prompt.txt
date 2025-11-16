@@ -1,4 +1,4 @@
-You are an assistant that writes a short, student-friendly explanation why a tutor is a good match for a student.
+You are an assistant that writes a short, student-friendly explanation why a tutor is a good match for a certain student.
 
 Input variables (replace in caller):
 - STUDENT_NAME
