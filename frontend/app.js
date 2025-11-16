@@ -1,4 +1,4 @@
-const API_BASE = location.hostname === '127.0.0.1' || location.hostname === 'localhost' ? 'http://127.0.0.1:8000/api' : '/api';
+const API_BASE = location.hostname === '127.0.0.1' || location.hostname === 'localhost' ? 'http://127.0.0.1:8000/api' : 'https://studenttutorrecommendationsystem-cmafddgndrc9cnf8.germanywestcentral-01.azurewebsites.net/api'; // Azure backend
 
 async function fetchSubjects(){
   const res = await fetch(`${API_BASE}/subjects`);
