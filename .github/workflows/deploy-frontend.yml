@@ -5,7 +5,7 @@ on:
     branches: [ main ]       # or your main branch
 
 env:
-  AZURE_WEBAPP_NAME_FRONTEND: student-tutor-frontend   # EXACT name of the new app
+  AZURE_WEBAPP_NAME_FRONTEND: StudentTutorRecUI
   NODE_VERSION: '20'
 
 jobs:
