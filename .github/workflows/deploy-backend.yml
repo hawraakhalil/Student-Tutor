@@ -5,7 +5,7 @@ on:
     branches: [ main ]   # or whatever your main branch is
 
 env:
-  AZURE_WEBAPP_NAME: StudentTutorRecommendation   # EXACT name of the App Service
+  AZURE_WEBAPP_NAME: StudentTutorRecommendationSystem   # EXACT name of the App Service
   PYTHON_VERSION: '3.11'                          # or your version
 
 jobs:
