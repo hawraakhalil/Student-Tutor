@@ -26,6 +26,27 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install frontend deps and build
+        working-directory: frontend
+        run: |
+          npm install
+          npm run build          # if your build folder is "dist", this still works; see below
+
+      - name: Copy frontend build into backend/static
+        run: |
+          rm -rf backend/static
+          mkdir -p backend/static
+          # If your tool outputs "build" (CRA) use this:
+          cp -r frontend/build/* backend/static/
+          # If it outputs "dist" instead, change the line above to:
+          # cp -r frontend/dist/* backend/static/
+
+
       # Package ONLY the backend folder as the app content
       - name: Zip app (keep backend as a package)
         run: |

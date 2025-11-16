@@ -1,9 +1,12 @@
 from fastapi import FastAPI, Depends, HTTPException, Query
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, EmailStr, validator
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from . import models, crud, ai
 from .database import engine, get_db, Base
+from pathlib import Path
 import os
 
 # Load environment variables from backend/.env if present (supports secrets locally)
@@ -296,3 +299,20 @@ def del_student(student_id: int, db: Session = Depends(get_db)):
     if not ok:
         raise HTTPException(status_code=404, detail="Student not found")
     return {"deleted": True}
+
+
+frontend_dir = Path(__file__).parent / "static"
+
+# Serve static files (CSS, JS, images)
+app.mount("/static", StaticFiles(directory=frontend_dir, html=True), name="static")
+
+# Root path -> frontend index.html
+@app.get("/")
+async def serve_index():
+    return FileResponse(frontend_dir / "index.html")
+
+# (Optional) SPA routes – send everything else to index.html,
+# BUT keep this AFTER all your API routes so it doesn't swallow them.
+@app.get("/{full_path:path}")
+async def spa_catch_all(full_path: str):
+    return FileResponse(frontend_dir / "index.html")
