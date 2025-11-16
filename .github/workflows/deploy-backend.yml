@@ -34,8 +34,10 @@ jobs:
       - name: Install frontend deps and build
         working-directory: frontend
         run: |
-          npm install
-          npm run build          # if your build folder is "dist", this still works; see below
+          npm ci || npm install
+          # Make sure vite binary is executable (workaround for the "Permission denied")
+          chmod +x node_modules/.bin/vite || true
+          npm run build
 
       - name: Copy frontend build into backend/static
         run: |
