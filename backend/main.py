@@ -301,18 +301,28 @@ def del_student(student_id: int, db: Session = Depends(get_db)):
     return {"deleted": True}
 
 
-frontend_dir = Path(__file__).parent / "static"
+BASE_DIR = Path(__file__).parent
+static_dir = BASE_DIR / "static"
+templates_dir = BASE_DIR / "templates"
+
+app.mount("/src", StaticFiles(directory=static_dir / "src"), name="src")
 
 # Serve static files (CSS, JS, images)
-app.mount("/static", StaticFiles(directory=frontend_dir, html=True), name="static")
+app.mount("/static", StaticFiles(directory=static_dir, html=True), name="static")
 
 # Root path -> frontend index.html
 @app.get("/")
 async def serve_index():
-    return FileResponse(frontend_dir / "index.html")
+    return FileResponse(templates_dir / "index.html")
 
-# (Optional) SPA routes – send everything else to index.html,
-# BUT keep this AFTER all your API routes so it doesn't swallow them.
-@app.get("/{full_path:path}")
-async def spa_catch_all(full_path: str):
-    return FileResponse(frontend_dir / "index.html")
+@app.get("/search")
+async def search_page():
+    return FileResponse(templates_dir / "search.html")
+
+@app.get("/student")
+async def student_page():
+    return FileResponse(templates_dir / "student.html")
+
+@app.get("/tutor")
+async def tutor_page():
+    return FileResponse(templates_dir / "tutor.html")

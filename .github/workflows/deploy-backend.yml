@@ -39,11 +39,22 @@ jobs:
           chmod +x node_modules/.bin/vite || true
           npm run build
 
-      - name: Copy frontend build into backend/static
+      - name: Copy frontend into backend static/templates
         run: |
-          rm -rf backend/static
-          mkdir -p backend/static
-          cp -r frontend/dist/* backend/static/
+          rm -rf backend/static backend/templates
+          mkdir -p backend/static backend/templates
+
+          # HTML pages → templates
+          cp frontend/*.html backend/templates/
+
+          # CSS + JS → static
+          cp frontend/*.css backend/static/ || true
+          cp frontend/*.js backend/static/ || true
+
+          if [ -d "frontend/src" ]; then
+            cp -r frontend/src backend/static/src
+          fi
+
 
 
       # Package ONLY the backend folder as the app content
