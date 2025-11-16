@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-import models
+from . import models
 from typing import List, Optional
 from math import radians, cos, sin, asin, sqrt
 

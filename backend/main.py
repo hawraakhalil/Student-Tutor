@@ -2,8 +2,8 @@ from fastapi import FastAPI, Depends, HTTPException, Query
 from pydantic import BaseModel, EmailStr, validator
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-import models, crud, ai
-from database import engine, get_db, Base
+from . import models, crud, ai
+from .database import engine, get_db, Base
 import os
 
 # Load environment variables from backend/.env if present (supports secrets locally)
