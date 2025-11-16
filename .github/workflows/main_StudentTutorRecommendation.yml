@@ -64,12 +64,11 @@ jobs:
         with:
           name: python-app
           path: |
-            .
+            Final_Project
             !antenv/
             !frontend/node_modules/
             !.git/
             !.github/
-            !Final_Project
             !Final_Project/antenv/
             !Final_Project/frontend/node_modules/
             !Final_Project/.git/
