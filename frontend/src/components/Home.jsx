@@ -1,5 +1,5 @@
 import React from 'react'
-import Educator from '../../../educator.svg'
+import Educator from '../../educator.svg'
 
 export default function Home({onGetStarted}){
   return (
