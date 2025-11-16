@@ -26,37 +26,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install frontend deps and build
-        working-directory: frontend
-        run: |
-          npm ci || npm install
-          # Make sure vite binary is executable (workaround for the "Permission denied")
-          chmod +x node_modules/.bin/vite || true
-          npm run build
-
-      - name: Copy frontend into backend static/templates
-        run: |
-          rm -rf backend/static backend/templates
-          mkdir -p backend/static backend/templates
-
-          # HTML pages → templates
-          cp frontend/*.html backend/templates/
-
-          # CSS + JS → static
-          cp frontend/*.css backend/static/ || true
-          cp frontend/*.js backend/static/ || true
-
-          if [ -d "frontend/src" ]; then
-            cp -r frontend/src backend/static/src
-          fi
-
-
-
       # Package ONLY the backend folder as the app content
       - name: Zip app (keep backend as a package)
         run: |

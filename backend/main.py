@@ -1,12 +1,9 @@
 from fastapi import FastAPI, Depends, HTTPException, Query
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 from pydantic import BaseModel, EmailStr, validator
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from . import models, crud, ai
 from .database import engine, get_db, Base
-from pathlib import Path
 import os
 
 # Load environment variables from backend/.env if present (supports secrets locally)
@@ -299,30 +296,3 @@ def del_student(student_id: int, db: Session = Depends(get_db)):
     if not ok:
         raise HTTPException(status_code=404, detail="Student not found")
     return {"deleted": True}
-
-
-BASE_DIR = Path(__file__).parent
-static_dir = BASE_DIR / "static"
-templates_dir = BASE_DIR / "templates"
-
-app.mount("/src", StaticFiles(directory=static_dir / "src"), name="src")
-
-# Serve static files (CSS, JS, images)
-app.mount("/static", StaticFiles(directory=static_dir, html=True), name="static")
-
-# Root path -> frontend index.html
-@app.get("/")
-async def serve_index():
-    return FileResponse(templates_dir / "index.html")
-
-@app.get("/search")
-async def search_page():
-    return FileResponse(templates_dir / "search.html")
-
-@app.get("/student")
-async def student_page():
-    return FileResponse(templates_dir / "student.html")
-
-@app.get("/tutor")
-async def tutor_page():
-    return FileResponse(templates_dir / "tutor.html")
