@@ -24,7 +24,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     # Do not expose credentials with a wildcard origin to avoid browser blocking.
-    allow_credentials=False,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
