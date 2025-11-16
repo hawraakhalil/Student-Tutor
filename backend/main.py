@@ -20,16 +20,11 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Tutor Finder API")
 
-origins = [
-    "http://localhost:5173",  # Vite dev
-    "http://127.0.0.1:5173",
-    "https://studenttutorrecui-h6axcpgdgjb3bcer.germanywestcentral-01.azurewebsites.net/"
-]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
