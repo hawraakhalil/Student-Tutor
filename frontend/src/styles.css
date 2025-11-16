@@ -1,0 +1,146 @@
+:root {
+	--brand-green: #17B8A6;
+	--brand-green-2: #000000;
+	--brand-gold: #e7c860;
+	--bg: #f6fbfa;
+	--text: #535554;
+	--muted: #000000;
+}
+
+/* Make Bootstrap use our brand colors when possible */
+:root {
+	--bs-primary: var(--brand-green) !important;
+	--bs-secondary: var(--brand-gold) !important;
+	--bs-body-color: var(--text) !important;
+	--bs-body-bg: var(--bg) !important;
+}
+
+body {
+	background: linear-gradient(180deg, #f9fbfa, var(--bg));
+	font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	color: var(--text);
+}
+
+/* Header / brand */
+.app-header { background-color: var(--brand-green) !important; background-image: none !important; color: white; padding: 18px 12px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
+.app-header .brand { font-weight: 700; font-size: 1.15rem; cursor: pointer; outline: none; }
+.app-header .brand:focus { box-shadow: 0 0 0 3px rgba(178, 61, 228, 0.12); border-radius: 6px; }
+
+.card { border-radius: 12px; }
+.sticky-card { position: sticky; top: 20px; }
+.avatar { width:64px; height:64px; border-radius:12px; object-fit:cover; }
+.price { font-weight:700; }
+.tutor-card .card-body { padding: 16px; }
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; z-index: 1050; }
+.modal-card { background: #fff; border-radius:10px; padding:18px; width: min(980px, 94%); max-height: 90vh; overflow:auto; }
+.stars span { color: var(--brand-gold); margin-right: 6px; }
+.app-root { min-height: 100vh; }
+.container footer { opacity: 0.75; }
+
+/* Bootstrap overrides (strong selectors to beat Bootstrap defaults) */
+.navbar, .navbar-brand, .nav-link, .navbar-nav .nav-link { background: transparent !important; color: #fff !important; }
+.bg-primary, .btn-primary, .badge-primary { background-color: var(--brand-green) !important; border-color: var(--brand-green) !important; color: #fff !important; }
+.btn-outline-primary { color: var(--brand-green) !important; border-color: var(--brand-green) !important; }
+.text-primary { color: var(--brand-green) !important; }
+a, a:hover, a:active { color: var(--brand-green) !important; }
+.display-5, .hero .display-5 { color: var(--brand-green-2) !important; }
+
+.home-hero .features .card { border: none; box-shadow: 0 6px 18px rgba(16,24,40,0.06); }
+.home-hero .cta { border-top: 1px solid rgba(0,0,0,0.04); }
+.home-hero .lead { max-width: 720px; margin: 0 auto; color: var(--muted); }
+
+/* Utility classes */
+.text-gold { color: var(--brand-gold) !important; }
+.text-green { color: var(--brand-green) !important; }
+
+/* Ensure any leftover blue is overridden */
+.btn, .badge, .alert, .card-header { border-color: rgba(9,50,45,0.04) !important; }
+
+/* Make admin list separators more visible */
+.list-group-item {
+	border-bottom: 1px solid rgba(9,50,45,0.12) !important;
+	border-top: none !important;
+	background: transparent !important;
+}
+.list-group-item + .list-group-item { margin-top: 0; }
+
+/* Strong overrides to ensure no Bootstrap blue remains:
+	 - Navbar fully green
+	 - All buttons gold
+	 Use specific selectors and !important so these beat Bootstrap rules. */
+.navbar {
+	background-color: var(--brand-green) !important;
+	background-image: none !important;
+	border: none !important;
+}
+.navbar, .navbar .navbar-brand, .navbar .nav-link {
+	color: #000 !important;
+}
+.navbar .navbar-brand:hover, .navbar .nav-link:hover {
+	color: #000 !important;
+	opacity: 0.95 !important;
+}
+
+/* Make every button use gold accent by default */
+.btn, .btn-primary, .btn-secondary, .btn-outline-primary, .btn-outline-secondary {
+	background-color: var(--brand-gold) !important;
+	border-color: var(--brand-gold) !important;
+	color: #07251f !important;
+	box-shadow: 0 8px 18px rgba(212,175,55,0.12) !important;
+}
+
+/* Outline buttons should show gold border and green text */
+.btn-outline-primary, .btn-outline-secondary {
+	background-color: transparent !important;
+	color: var(--brand-green) !important;
+	border-color: var(--brand-gold) !important;
+}
+.btn:hover, .btn:focus {
+	filter: brightness(0.98) !important;
+}
+
+/* Ensure .bg-primary, .text-primary, badges follow brand */
+.bg-primary { background-color: var(--brand-green) !important; }
+.text-primary { color: var(--brand-green) !important; }
+.badge-primary { background-color: var(--brand-gold) !important; color: #07251f !important; }
+
+/* Links & accents */
+a, a:link, a:visited { color: var(--brand-green) !important; }
+
+/* Overrides for components that sometimes get blue backgrounds from Bootstrap */
+.alert-primary, .list-group-item-primary, .table-primary { background-color: rgba(23,184,166,0.08) !important; border-color: rgba(23,184,166,0.12) !important; }
+
+/* Final safety: replace any remaining common blue hex values used locally */
+/* (This is a last-resort grep-replace style override for common bootstrap blue hex) */
+*:where([style*="#0d6efd"]) { color-scheme: normal !important; }
+
+/* Ensure tutor/student/search titles are black for contrast */
+.tutor-card h5, .tutor-card h3, .list-group-item strong, .col-lg-9 > .d-flex h5, .search-results h5 {
+	color: #000 !important;
+}
+
+/* Student form and headings */
+.student-list h4, .student-list strong { color: #000 !important; }
+
+/* Navbar-specific button contrast fixes: make inactive navbar buttons black and visible */
+.app-header nav .btn {
+	color: #000 !important;
+	background-color: transparent !important;
+	border-color: rgba(0,0,0,0.06) !important;
+}
+.app-header nav .btn.btn-outline-primary {
+	color: #000 !important;
+	border-color: var(--brand-gold) !important;
+}
+.app-header nav .btn.btn-outline-primary:hover,
+.app-header nav .btn.btn-outline-primary:focus {
+	background-color: var(--brand-gold) !important;
+	color: #07251f !important;
+}
+.app-header nav .btn.btn-primary {
+	background-color: var(--brand-gold) !important;
+	border-color: var(--brand-gold) !important;
+	color: #07251f !important;
+}
+
+

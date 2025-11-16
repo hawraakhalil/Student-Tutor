@@ -1,0 +1,17 @@
+:root{
+  --brand:#17B8A6;
+  --accent:#D4AF37;
+  --muted:#139686;
+  --card-bg: #ffffff;
+  --soft:#f8f9fa;
+}
+body{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif; background: linear-gradient(180deg, #f6fbff, #ffffff);}
+.card-subtle{background:linear-gradient(180deg, rgba(23,184,166,0.05), #fff)}
+.tutor-card .price{font-weight:700; font-size:1.1rem; color:var(--accent)}
+.rating-badge{background:linear-gradient(90deg,var(--accent), #ffd97a); padding:3px 8px; border-radius:6px; color:#000; font-weight:700}
+.navbar, footer{box-shadow: 0 2px 6px rgba(9,50,45,0.06)}
+.card{border-radius:12px}
+.card .card-body{padding:1.25rem}
+.hero-illustration{max-width:260px; opacity:.95}
+.btn-primary{background: var(--accent) !important; border: 0 !important; color: #07251f !important; box-shadow: 0 6px 14px rgba(212,175,55,0.12) !important}
+.small-muted{color:var(--muted)}

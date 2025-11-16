@@ -1,0 +1,10 @@
+# Local Python virtual environment
+.venv/
+
+# Local env files
+backend/.env
+
+# Editor/OS files
+.vscode/
+__pycache__/
+*.pyc

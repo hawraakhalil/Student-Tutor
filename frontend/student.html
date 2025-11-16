@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Student Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <main class="container py-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3">Student Dashboard</h1>
+        <div>
+          <select id="studentSelect" class="form-select"></select>
+          <div class="form-check form-switch mt-2">
+            <input class="form-check-input" type="checkbox" id="useAi" checked>
+            <label class="form-check-label small text-muted" for="useAi">Use AI explanations</label>
+          </div>
+          <div id="studentDebug" class="small text-muted mt-2"></div>
+        </div>
+      </div>
+
+      <div id="info" class="mb-4"></div>
+
+      <h4>Recommended Tutors For You</h4>
+      <div id="recs" class="row gy-3"></div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+      async function loadStudents(){
+        const sel = document.getElementById('studentSelect');
+        sel.innerHTML = '';
+        sel.addEventListener('change', onChange);
+        try{
+          const students = await fetchStudents();
+          const dbg = document.getElementById('studentDebug');
+          if(!Array.isArray(students)){
+            dbg.innerText = 'Unexpected response shape from /api/students';
+          } else if(students.length === 0){
+            dbg.innerText = 'No students returned by the API';
+          } else {
+            dbg.innerText = `Loaded ${students.length} students`;
+          }
+          students.forEach(s => { const opt = document.createElement('option'); opt.value=s.id; opt.text=`${s.name} — ${s.city || ''}`; sel.appendChild(opt); });
+          if(students.length) { sel.value = students[0].id; await onChange(); }
+        }catch(e){ console.error(e); sel.innerHTML = '<option value="">(no students)</option>'; document.getElementById('studentDebug').innerText = 'Error fetching students: '+e.message; }
+      }
+      async function onChange(){
+        const id = document.getElementById('studentSelect').value;
+        const useAi = document.getElementById('useAi').checked;
+        // show student summary and recommendations
+        // minimal student info is embedded in README/seed; to keep simple, show name and id
+        document.getElementById('info').innerHTML = `<div class="card"><div class="card-body">Viewing student ID: ${id}</div></div>`;
+        let recs = await getStudentRecommendations(id, useAi);
+        const container = document.getElementById('recs'); container.innerHTML='';
+        // normalize possible response shapes: either an array or an object { recommended_tutors: [...] }
+        if(recs && !Array.isArray(recs) && recs.recommended_tutors && Array.isArray(recs.recommended_tutors)){
+          recs = recs.recommended_tutors;
+        }
+        if(!Array.isArray(recs)){
+          // defensive handling: show a helpful error instead of crashing
+          const dbg = document.getElementById('studentDebug');
+          dbg.innerText = 'Unexpected recommendations response; check backend. See console/network for details.';
+          console.error('Expected recommendations array, got:', recs);
+        } else {
+          recs.forEach(t => { const col = document.createElement('div'); col.className='col-md-6'; col.appendChild(createTutorCard(t)); container.appendChild(col); });
+        }
+      }
+      loadStudents();
+    </script>
+  </body>
+  </html>
