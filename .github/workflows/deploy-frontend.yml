@@ -1,0 +1,40 @@
+name: Deploy frontend to Azure App Service
+
+on:
+  push:
+    branches: [ main ]       # or your main branch
+
+env:
+  AZURE_WEBAPP_NAME_FRONTEND: student-tutor-frontend   # EXACT name of the new app
+  NODE_VERSION: '20'
+
+jobs:
+  build-and-deploy-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install deps & build frontend
+        working-directory: frontend
+        run: |
+          npm ci || npm install
+          npm run build
+
+      - name: Zip frontend app
+        run: |
+          cd frontend
+          zip -r ../frontend.zip .
+
+      - name: Deploy frontend to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME_FRONTEND }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_FRONTEND }}
+          package: frontend.zip
